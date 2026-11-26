@@ -10,8 +10,8 @@ remote AS (
     WHERE job_work_from_home
     GROUP BY month
 )
-SELECT month, total_postings, remote_postings,
-       ROUND(100.0 * remote_postings / total_postings, 1) AS pct_remote
+SELECT month, total_postings, COALESCE(remote_postings, 0) AS remote_postings,
+       ROUND(100.0 * COALESCE(remote_postings, 0) / total_postings, 1) AS pct_remote
 FROM totals
-JOIN remote USING (month)
+LEFT JOIN remote USING (month)
 ORDER BY month
