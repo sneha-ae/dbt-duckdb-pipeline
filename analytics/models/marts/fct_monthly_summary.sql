@@ -1,12 +1,12 @@
 -- models/monthly_summary.sql: monthly totals + remote share from two refs
 WITH totals AS (
     SELECT month, SUM(postings) AS total_postings
-    FROM {{ ref('jobs_per_month') }}
+    FROM {{ ref('fct_jobs_per_month') }}
     GROUP BY month
 ),
 remote AS (
     SELECT DATE_TRUNC('month', search_date) AS month, COUNT(*) AS remote_postings
-    FROM {{ ref('job_postings') }}
+    FROM {{ ref('stg_raw__job_postings') }}
     WHERE job_work_from_home
     GROUP BY month
 )
