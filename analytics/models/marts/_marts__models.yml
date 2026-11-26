@@ -40,3 +40,43 @@ models:
       - name: pct_remote
         description: Share of the month's postings flagged remote, percent.
         data_type: double
+
+  - name: fct_posting_lifecycle
+    description: One row per job posting (id-less scraper rows excluded); how long it stayed visible across re-scrapes.
+    columns:
+      - name: job_id
+        description: The scraper's posting id; the grain of this model.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: job_title
+        description: Title from the posting's latest scrape.
+        data_type: varchar
+      - name: company_name
+        description: Employer from the latest scrape.
+        data_type: varchar
+      - name: job_location
+        description: Location from the latest scrape.
+        data_type: varchar
+      - name: job_via
+        description: Platform from the latest scrape.
+        data_type: varchar
+      - name: search_term
+        description: Role searched in the latest scrape.
+        data_type: varchar
+      - name: first_seen
+        description: First scrape day the posting appeared.
+        data_type: date
+      - name: last_seen
+        description: Last scrape day the posting appeared.
+        data_type: date
+      - name: times_scraped
+        description: Number of rows (scrapes) for this posting.
+        data_type: bigint
+      - name: days_seen
+        description: Number of distinct scrape days it appeared on.
+        data_type: bigint
+      - name: days_live
+        description: Days from first_seen to last_seen, inclusive.
+        data_type: bigint
