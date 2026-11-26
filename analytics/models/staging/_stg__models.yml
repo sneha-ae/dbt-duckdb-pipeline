@@ -1,10 +1,6 @@
 models:
   - name: stg_raw__job_postings
     description: Cleaned postings; nine named columns, scraper error rows removed.
-    config:
-      persist_docs:
-        relation: true
-        columns: true
     columns:
       - name: job_id
         description: The scraper's posting id; re-scraped postings repeat it.
