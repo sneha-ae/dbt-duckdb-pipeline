@@ -4,30 +4,39 @@ models:
     columns:
       - name: month
         description: Posting month, truncated from search_date.
+        data_type: timestamp
       - name: role
         description: Search role (search_term).
+        data_type: varchar
       - name: postings
         description: Postings counted for the role that month.
+        data_type: bigint
 
   - name: fct_top_locations
     description: Top 10 locations by posting count.
     columns:
       - name: job_location
         description: Posting location; the grain.
+        data_type: varchar
       - name: postings
         description: Postings counted for the location.
+        data_type: bigint
 
   - name: fct_monthly_summary
     description: Monthly summary of job postings; one row per month.
     columns:
       - name: month
         description: Year and month of the summary.
+        data_type: timestamp
         data_tests:
           - unique
           - not_null
       - name: total_postings
         description: All postings that month (summed from fct_jobs_per_month).
+        data_type: hugeint
       - name: remote_postings
         description: Postings flagged remote that month.
+        data_type: bigint
       - name: pct_remote
         description: Share of the month's postings flagged remote, percent.
+        data_type: double
