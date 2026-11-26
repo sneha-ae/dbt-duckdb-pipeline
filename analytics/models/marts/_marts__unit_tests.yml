@@ -1,0 +1,45 @@
+unit_tests:
+  - name: test_pct_remote_quarter_of_postings
+    description: 1 remote posting out of 4 total in a month gives 25 percent.
+    model: fct_monthly_summary
+    given:
+      - input: ref('fct_jobs_per_month')
+        rows:
+          - {month: '2025-07-01', role: 'Data Analyst', postings: 3}
+          - {month: '2025-07-01', role: 'Data Engineer', postings: 1}
+      - input: ref('stg_raw__job_postings')
+        rows:
+          - {search_date: '2025-07-05', job_work_from_home: true}
+          - {search_date: '2025-07-06', job_work_from_home: false}
+    expect:
+      rows:
+        - {month: '2025-07-01', total_postings: 4, remote_postings: 1, pct_remote: 25.0}
+
+  - name: test_pct_remote_all_remote
+    description: When every posting in a month is remote, pct_remote is 100.
+    model: fct_monthly_summary
+    given:
+      - input: ref('fct_jobs_per_month')
+        rows:
+          - {month: '2025-08-01', role: 'Data Analyst', postings: 2}
+      - input: ref('stg_raw__job_postings')
+        rows:
+          - {search_date: '2025-08-03', job_work_from_home: true}
+          - {search_date: '2025-08-04', job_work_from_home: true}
+    expect:
+      rows:
+        - {month: '2025-08-01', total_postings: 2, remote_postings: 2, pct_remote: 100.0}
+
+  - name: test_month_with_zero_remote_postings_is_kept
+    description: A month with no remote postings must still appear, with remote_postings = 0 and pct_remote = 0.
+    model: fct_monthly_summary
+    given:
+      - input: ref('fct_jobs_per_month')
+        rows:
+          - {month: '2025-09-01', role: 'Data Analyst', postings: 5}
+      - input: ref('stg_raw__job_postings')
+        rows:
+          - {search_date: '2025-09-03', job_work_from_home: false}
+    expect:
+      rows:
+        - {month: '2025-09-01', total_postings: 5, remote_postings: 0, pct_remote: 0.0}

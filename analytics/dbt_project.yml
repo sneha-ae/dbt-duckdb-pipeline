@@ -11,4 +11,12 @@ clean-targets:
 
 models:
   analytics:
-    +materialized: table
+    +persist_docs:
+      relation: true
+      columns: true
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
+      +contract:
+        enforced: true

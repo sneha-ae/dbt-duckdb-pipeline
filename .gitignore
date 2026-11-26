@@ -15,3 +15,10 @@ wheels/
 data/
 *.duckdb
 logs/
+
+
+profiles.yml
+!ci/profiles.yml
+
+target/
+.user.yml
