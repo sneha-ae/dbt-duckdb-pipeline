@@ -41,7 +41,7 @@ models:
         description: Share of the month's postings flagged remote, percent.
         data_type: double
 
-  - name: fct_posting_lifecycle
+  - name: fct_job_posting_lifecycle
     description: One row per job posting (id-less scraper rows excluded); how long it stayed visible across re-scrapes.
     columns:
       - name: job_id
